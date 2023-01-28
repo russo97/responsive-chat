@@ -2,25 +2,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import isomorphicUnfetch from "isomorphic-unfetch";
-
-type Data = {
-  results: {
-    name: {
-      first: string,
-      last: string
-    },
-    picture: {
-      medium: string
-    }
-  }[]
-}
+import unfetch from "isomorphic-unfetch";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<any>
 ) {
-  const data = await isomorphicUnfetch('https://randomuser.me/api/')
+  const data = await unfetch('https://randomuser.me/api/')
 
   const response = await data.json()
 

@@ -1,11 +1,11 @@
 
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.scss'
+import { GetStaticProps } from 'next'
 
-import { ChatHeader } from "@/components/ChatHeader";
+import unfetch from "isomorphic-unfetch";
 
-export default function Home() {
+
+export default function Home ({ data }) {
   return (
     <>
       <Head>
@@ -13,12 +13,31 @@ export default function Home() {
       </Head>
 
       <div className="main">
-        <ChatHeader />
-
         <main>
-          content
+          {
+            data.map((todo: Todo) => (
+              <div key={todo.id}>
+                { todo.title }
+              </div>
+            ))
+          }
         </main>
       </div>
     </>
   )
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await fetch('http://localhost:3000/api/randomUser')
+
+  const data = await response.json();
+
+  console.log(data)
+
+  return {
+    props: {
+      data: data.results
+    },
+    revalidate: 2
+  }
 }

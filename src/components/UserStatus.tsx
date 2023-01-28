@@ -1,18 +1,4 @@
 
-import isomorphicUnfetch from "isomorphic-unfetch";
-
-type Data = {
-  results: {
-    name: {
-      first: string,
-      last: string
-    },
-    picture: {
-      medium: string
-    }
-  }[]
-}
-
 function UserStatus (props: any) {
   return (
     <>
