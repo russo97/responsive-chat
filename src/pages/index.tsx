@@ -4,8 +4,23 @@ import { GetStaticProps } from 'next'
 
 import unfetch from "isomorphic-unfetch";
 
+interface User {
+  gender: string;
+  name: {
+    title: string;
+    first: string;
+    last: string;
+  }
+  email: string;
+  picture: {
+    large: string;
+    medium: string;
+    thumbnail: string;
+  }
+}
 
-export default function Home ({ data }) {
+
+export default function Home ({ user }) {
   return (
     <>
       <Head>
@@ -14,13 +29,7 @@ export default function Home ({ data }) {
 
       <div className="main">
         <main>
-          {
-            data.map((todo: Todo) => (
-              <div key={todo.id}>
-                { todo.title }
-              </div>
-            ))
-          }
+          {user.name.first}
         </main>
       </div>
     </>
@@ -32,11 +41,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const data = await response.json();
 
-  console.log(data)
+  const user: User = data.results[0];
 
   return {
     props: {
-      data: data.results
+      user
     },
     revalidate: 2
   }
